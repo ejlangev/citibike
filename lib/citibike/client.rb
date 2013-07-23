@@ -20,6 +20,11 @@ module Citibike
         @options[vk] = opts[vk]
       end
 
+      # Raw forces unwrapped to be true
+      if opts[:raw]
+        @options[:unwrapped] = true
+      end
+
       @connection = Citibike::Connection.new(opts)
     end
 
