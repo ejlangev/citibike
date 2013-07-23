@@ -1,0 +1,4 @@
+--order random
+--fail-fast
+-p
+-c
