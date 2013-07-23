@@ -12,7 +12,7 @@ describe Citibike::Client do
       end
     end
 
-    context "#stations" do
+    context ".stations" do
       it "should load a list of stations" do
         stats = Citibike::Client.stations
 
@@ -22,7 +22,7 @@ describe Citibike::Client do
       end
     end
 
-    context "#helmets" do
+    context ".helmets" do
       it "should load a list of helmets" do
         helms = Citibike::Client.helmets
 
@@ -32,7 +32,7 @@ describe Citibike::Client do
       end
     end
 
-    context "#branches" do
+    context ".branches" do
       it "should load a list of branches" do
         branches = Citibike::Client.branches
 
@@ -44,6 +44,66 @@ describe Citibike::Client do
   end
 
   context "Instance Methods" do
+    around(:each) do |example|
+      VCR.use_cassette(:client_instance, record: :new_episodes) do
+        example.run
+      end
+    end
+
+    let(:client) { Citibike::Client.new }
+
+    let(:unwrapped) { Citibike::Client.new(unwrapped: true)}
+
+    context "#stations" do
+      it "should get back a response object by default" do
+        stats = client.stations
+
+        stats.should be_a(Citibike::Responses::Station)
+        stats.first.should be_a(Citibike::Station)
+      end
+
+      it "should get back an array when unwrapped" do
+        stats = unwrapped.stations
+
+        stats.should be_a(Hash)
+        stats['results'].first.should be_a(Hash)
+        stats['results'].first['id'].should_not be_nil
+      end
+    end
+
+    context "#helmets" do
+      it "should get back a response object by default" do
+        stats = client.helmets
+
+        stats.should be_a(Citibike::Responses::Helmet)
+        stats.first.should be_a(Citibike::Helmet)
+      end
+
+      it "should get back an array when unwrapped" do
+        stats = unwrapped.helmets
+
+        stats.should be_a(Hash)
+        stats['results'].first.should be_a(Hash)
+        stats['results'].first['id'].should_not be_nil
+      end
+    end
+
+    context "#branches" do
+      it "should get back a response object by default" do
+        stats = client.branches
+
+        stats.should be_a(Citibike::Responses::Branch)
+        stats.first.should be_a(Citibike::Branch)
+      end
+
+      it "should get back an array when unwrapped" do
+        stats = unwrapped.branches
+
+        stats.should be_a(Hash)
+        stats['results'].first.should be_a(Hash)
+        stats['results'].first['id'].should_not be_nil
+      end
+    end
 
   end
 end

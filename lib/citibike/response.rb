@@ -32,6 +32,14 @@ module Citibike
       end
     end
 
+    #
+    # Returns true if this holds a successful response
+    #
+    # @return [Boolean] [Whether the request succeeded]
+    def success?
+      @success == true
+    end
+
     # each provided to include enumberable
     # @param  &block [Block] [For enumerable]
     #
@@ -89,8 +97,11 @@ module Citibike
     # @return [type] [description]
     def all_near(obj, dist)
       @data.select do |d|
-        false if d.id == obj.id
-        d.distance_from(obj.latitude, obj.longitude) < dist
+        if d.id == obj.id
+          false
+        else
+          d.distance_from(obj.latitude, obj.longitude) < dist
+        end
       end
     end
 
