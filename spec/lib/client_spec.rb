@@ -1,7 +1,4 @@
 require 'spec_helper'
-require 'debugger'
-
-Debugger.start
 
 describe Citibike::Client do
   context "Class Methods" do
