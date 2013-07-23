@@ -4,6 +4,7 @@ require 'rspec'
 require 'rspec/autorun'
 
 require 'vcr'
+require 'yajl'
 
 require 'coveralls'
 Coveralls.wear!
